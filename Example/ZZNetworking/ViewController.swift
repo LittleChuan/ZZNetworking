@@ -7,18 +7,24 @@
 //
 
 import UIKit
+import ZZNetworking
+import RxSwift
 
 class ViewController: UIViewController {
 
+    let bag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        ZZNetConfig.host = "https://api.douban.com"
+        ZZNetConfig.debugLog = true
+        
+        Movies.get().subscribe(onSuccess: { (res) in
+            print(res)
+        }) { (err) in
+            print(err)
+        }.disposed(by: bag)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
 }
 

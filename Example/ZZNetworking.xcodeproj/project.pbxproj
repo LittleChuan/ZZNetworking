@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		149CA1D223FE582E00EEEB20 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CA1D123FE582E00EEEB20 /* Movie.swift */; };
 		42286D3E432FB03324C45ECE /* Pods_ZZNetworking_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E5D685EDB79132967DA10 /* Pods_ZZNetworking_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -28,7 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		16A7A0773DF0FCB66FA17879 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		149CA1D123FE582E00EEEB20 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		16A7A0773DF0FCB66FA17879 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		28A9C7A64A9A68D2E341D19A /* Pods-ZZNetworking_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZNetworking_Tests.release.xcconfig"; path = "Target Support Files/Pods-ZZNetworking_Tests/Pods-ZZNetworking_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3FFF21B07E38CF176CA576CD /* Pods-ZZNetworking_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZNetworking_Example.debug.xcconfig"; path = "Target Support Files/Pods-ZZNetworking_Example/Pods-ZZNetworking_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4BF8AED63883505C5D7243FA /* Pods-ZZNetworking_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZNetworking_Example.release.xcconfig"; path = "Target Support Files/Pods-ZZNetworking_Example/Pods-ZZNetworking_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -42,8 +44,8 @@
 		607FACE51AFB9204008FA782 /* ZZNetworking_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZNetworking_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		696F6AD3840AF640BE3176C4 /* ZZNetworking.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = ZZNetworking.podspec; path = ../ZZNetworking.podspec; sourceTree = "<group>"; };
-		6DEE09AF2CDA5C7AD8C2A6CF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		696F6AD3840AF640BE3176C4 /* ZZNetworking.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ZZNetworking.podspec; path = ../ZZNetworking.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		6DEE09AF2CDA5C7AD8C2A6CF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		7A802C02D37B3C74664F7B08 /* Pods_ZZNetworking_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZNetworking_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41E5D685EDB79132967DA10 /* Pods_ZZNetworking_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZNetworking_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB5A39E9CB945398FA0DF5CF /* Pods-ZZNetworking_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZNetworking_Tests.debug.xcconfig"; path = "Target Support Files/Pods-ZZNetworking_Tests/Pods-ZZNetworking_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				149CA1D123FE582E00EEEB20 /* Movie.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -147,7 +150,6 @@
 				DB5A39E9CB945398FA0DF5CF /* Pods-ZZNetworking_Tests.debug.xcconfig */,
 				28A9C7A64A9A68D2E341D19A /* Pods-ZZNetworking_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -214,11 +216,11 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
@@ -228,6 +230,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -334,10 +337,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ZZNetworking_Example/Pods-ZZNetworking_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ZZNetworking/ZZNetworking.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZZNetworking.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,6 +361,7 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				149CA1D223FE582E00EEEB20 /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,7 +513,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -520,7 +528,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -541,7 +549,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZZNetworking_Example.app/ZZNetworking_Example";
 			};
 			name = Debug;
@@ -559,7 +567,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZZNetworking_Example.app/ZZNetworking_Example";
 			};
 			name = Release;
