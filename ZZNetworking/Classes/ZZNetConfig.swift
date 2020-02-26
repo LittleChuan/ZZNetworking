@@ -7,29 +7,17 @@
 
 import UIKit
 
-public enum ZZResponseType {
-    case common // for repsonse as { code, message, data }
-    case none // for data directly returned
-//    case customized
-}
-
-public struct ZZResponse<T> {
-    public var code: Int?
-    public var message: String?
-    public var data: T?
-}
-
 public struct ZZNetConfig {
+    /// open debug log
     public static var debugLog = false
+    /// default request URL, mark sure modify this
     public static var host = "your host"
+    /// default request Header
     public static var header = [String: String]()
-    public static var responseFormat = ZZResponseType.common
-    public static var beforeRequest = { }
-    public static var afterRequest = { }
-}
-
-func zzlog(_ items: Any..., separator: String = " ", terminator: String = "\n") {
-    if ZZNetConfig.debugLog {
-        print(items, separator: separator, terminator: terminator)
-    }
+    /// keypath in data structure which need decode. eg. { code, message, *data* }
+    public static var keyPath: String?
+    public static var beforeRequest: ((URLRequest) -> ())?
+    public static var afterRequestSuccess: (() -> ())?
+    /// handle only request failed
+    public static var afterRequestFailed: ((Error) -> ())?
 }
