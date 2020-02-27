@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'ZZNetworking'
   s.version          = '0.1.0'
-  s.summary          = 'A Networking Framework for RESTful API'
+  s.summary          = 'A Networking Framework for RESTful API, in RxSwift'
   
   s.description      = ''
 

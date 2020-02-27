@@ -18,8 +18,12 @@ class ZZNetworking {
                     encoding: Alamofire.ParameterEncoding = URLEncoding.default,
                     headers: Alamofire.HTTPHeaders? = nil,
                     timeout: TimeInterval = ZZNetConfig.timeout) -> Single<URLRequest> {
+    var requestHeaders = ZZNetConfig.header
+    if let headers = headers {
+        requestHeaders.merge(headers) { cur, _ in cur }
+    }
     do {
-        let request = try URLRequest(url: url, method: method, headers: headers)
+        let request = try URLRequest(url: url, method: method, headers: requestHeaders)
         var encodedURLRequest = try encoding.encode(request, with: parameters)
         encodedURLRequest.timeoutInterval = timeout
         return Single<URLRequest>.just(encodedURLRequest)

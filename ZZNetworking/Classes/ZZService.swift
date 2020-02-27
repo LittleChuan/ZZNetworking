@@ -7,6 +7,6 @@
 
 import UIKit
 
-class ZZService: NSObject {
+protocol ZZService {
 
 }

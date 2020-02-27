@@ -22,7 +22,7 @@ public protocol ZZRestModel : Codable {
 //    func put()
 //    func delete()
     
-    static func extraHeader() -> [String: String]
+    static var extraHeader: [String: String]? { get }
 }
 
 public extension ZZRestModel {
@@ -33,28 +33,26 @@ public extension ZZRestModel {
     
     // MARK: - request
     static func get(id: Int, _ params: [String: Any]? = nil) -> Single<Self> {
-        return zzMakeRequest(url + "/" + String(id), parameters: params, headers: extraHeader(), timeout: timeout)
+        return zzMakeRequest(url + "/" + String(id), parameters: params, headers: extraHeader, timeout: timeout)
             .flatMap{ zzRequest($0) }
             .flatMap{ zzDecode($0) }
     }
     
     static func get(_ params: [String: Any]? = nil) -> Single<[Self]> {
-        return zzMakeRequest(url, parameters: params, headers: extraHeader(), timeout: timeout)
+        return zzMakeRequest(url, parameters: params, headers: extraHeader, timeout: timeout)
             .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0, keyPath: keyPath) }
     }
     
     func post() -> Single<Self> {
         return zzEncode(self)
-            .flatMap { zzMakeRequest(Self.url, method: .post, parameters: $0, headers: Self.extraHeader(), timeout: Self.timeout) }
+            .flatMap { zzMakeRequest(Self.url, method: .post, parameters: $0, headers: Self.extraHeader, timeout: Self.timeout) }
             .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0) }
     }
     
     // MARK: - config
-    static func extraHeader() -> [String: String] {
-        [String: String]()
-    }
+    static var extraHeader: [String: String]? { nil }
 }
 
 public enum PageableStyle {
