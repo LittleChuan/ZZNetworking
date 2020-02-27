@@ -8,8 +8,6 @@
 import UIKit
 
 public struct ZZNetConfig {
-    /// open debug log
-    public static var debugLog = false
     /// default request URL, mark sure modify this
     public static var host = "your host"
     /// default request Header
@@ -26,4 +24,11 @@ public struct ZZNetConfig {
     public static var afterRequestSuccess: (() -> ())?
     /// handle only request failed
     public static var afterRequestFailed: ((Error) -> ())?
+    
+    // MARK: - Model
+    public static var pageableSytle = PageableStyle.skip()
+    
+    // MARK: - Debug
+    /// open debug log
+    public static var debugLog = false
 }

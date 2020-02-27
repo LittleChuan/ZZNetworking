@@ -10,7 +10,7 @@ import RxSwift
 
 class ZZNetworking {
     
-}s
+}
 
  func zzMakeRequest(_ url: Alamofire.URLConvertible,
                     method: Alamofire.HTTPMethod = .get,
@@ -28,7 +28,7 @@ class ZZNetworking {
     }
 }
 
-func zzRequest(_ url: URLRequest, retry: Int = ZZNetConfig.retry) -> Single<Data> {
+func zzRequest(_ url: URLRequest) -> Single<Data> {
     return Single<Data>.create { single in
         zzlog("start request: \(url)")
         if let before = ZZNetConfig.beforeRequest {
@@ -53,7 +53,7 @@ func zzRequest(_ url: URLRequest, retry: Int = ZZNetConfig.retry) -> Single<Data
         return Disposables.create {
             req.cancel()
         }
-    }.retry(retry)
+    }
 }
 
 func zzDecode<T: Codable>(_ data: Data, keyPath: String? = nil) -> Single<T> {
@@ -91,8 +91,14 @@ func zzEncode<T: Codable>(_ model: T) -> Single<Alamofire.Parameters?> {
 }
 
 // MARK: - debug util
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+    return dateFormatter
+}()
+
 func zzlog(_ log: String) {
     if ZZNetConfig.debugLog {
-        print("ZZNetworking Debug Log - " + log)
+        print(dateFormatter.string(from: Date()) + " ZZNetworking Debug Log - " + log)
     }
 }

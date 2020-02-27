@@ -12,7 +12,6 @@ public protocol ZZRestModel : Codable {
     static var path: String { get }
     static var host: String? { get }
     static var keyPath: String? { get }
-    static var retry: Int { get }
     static var timeout: TimeInterval { get }
     
     static func get(id: Int, _ params: [String: Any]?) -> Single<Self>
@@ -29,27 +28,26 @@ public protocol ZZRestModel : Codable {
 public extension ZZRestModel {
     static var host: String? { nil }
     static var keyPath: String? { ZZNetConfig.keyPath }
-    static var retry: Int { ZZNetConfig.retry }
     static var timeout: TimeInterval { ZZNetConfig.timeout }
     static var url: String { (host ?? ZZNetConfig.host) + path }
     
     // MARK: - request
     static func get(id: Int, _ params: [String: Any]? = nil) -> Single<Self> {
         return zzMakeRequest(url + "/" + String(id), parameters: params, headers: extraHeader(), timeout: timeout)
-            .flatMap{ zzRequest($0, retry: retry) }
+            .flatMap{ zzRequest($0) }
             .flatMap{ zzDecode($0) }
     }
     
     static func get(_ params: [String: Any]? = nil) -> Single<[Self]> {
         return zzMakeRequest(url, parameters: params, headers: extraHeader(), timeout: timeout)
-            .flatMap { zzRequest($0, retry: retry) }
+            .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0, keyPath: keyPath) }
     }
     
     func post() -> Single<Self> {
         return zzEncode(self)
             .flatMap { zzMakeRequest(Self.url, method: .post, parameters: $0, headers: Self.extraHeader(), timeout: Self.timeout) }
-            .flatMap { zzRequest($0, retry: Self.retry) }
+            .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0) }
     }
     
@@ -60,56 +58,67 @@ public extension ZZRestModel {
 }
 
 public enum PageableStyle {
-    case page
-    case skip
+    case page(sizeKey: String = "size", pageKey: String = "page")
+    case skip(sizeKey: String = "size", skipKey: String = "skip")
 }
 
 public class ZZPageableModel<T: ZZRestModel> {
     /// page number
     var page: Int = 0
-    static var pageKey: String { "page" }
     /// start | skip
     var skip: Int = 0
-    static var skipKey: String { "skip" }
     /// count | size
     var size: Int
-    static var sizeKey: String { "size" }
     var style: PageableStyle
     
-    var list = BehaviorRelay<[T]>(value: [])
-    var error = PublishRelay<Error>()
+    public var list = BehaviorRelay<[T]>(value: [])
+    public var error = PublishRelay<Error>()
     
     let bag = DisposeBag()
     
-    init(size: Int, style: PageableStyle = .skip) {
-       self.size = size
-       self.style = style
+    public init(size: Int, style: PageableStyle = ZZNetConfig.pageableSytle) {
+        self.size = size
+        self.style = style
     }
     
-    func refresh() {
-        var param = [Self.sizeKey: size]
+    public func refresh(_ params: [String: Any]? = nil) {
         page = 0
         skip = 0
-        switch style {
-        case .page:
-            param[Self.pageKey] = page
-            page += 1
-        case .skip:
-            param[Self.skipKey] = skip
-            skip += size
-        }
-        
-        T.get(param).subscribe({ [weak self] (res) in
+        T.get(makeParams(params)).subscribe { [weak self] (res) in
             switch res {
             case .success(let model):
                 self?.list.accept(model)
             case .error(let err):
                 self?.error.accept(err)
             }
-        }).disposed(by: bag)
+        }
+        .disposed(by: bag)
     }
     
-//    func loadNext() -> Single<Self> {
-//
-//    }
+    public func more(_ params: [String: Any]? = nil) {
+        T.get(makeParams(params)).subscribe { [weak self](res) in
+            switch res {
+            case .success(let model):
+                self?.list.accept((self?.list.value ?? []) + model)
+            case .error(let err):
+                self?.error.accept(err)
+            }
+        }
+        .disposed(by: bag)
+    }
+    
+    func makeParams(_ params: [String: Any]?) -> [String: Any] {
+        var newParams = params ?? [String: Any]()
+        switch style {
+        case .page(let sizeKey, let pageKey):
+            newParams[pageKey] = page
+            newParams[sizeKey] = size
+            page += 1
+        case .skip(let sizeKey, let skipKey):
+            newParams[skipKey] = skip
+            newParams[sizeKey] = size
+            skip += size
+        }
+        return newParams
+    }
 }
