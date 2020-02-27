@@ -8,33 +8,33 @@
 import Alamofire
 import RxSwift
 
-public class ZZNetworking {
-    public static let shared = ZZNetworking()
-    public var manager = SessionManager.default
-}
+class ZZNetworking {
+    
+}s
 
  func zzMakeRequest(_ url: Alamofire.URLConvertible,
                     method: Alamofire.HTTPMethod = .get,
                     parameters: Alamofire.Parameters? = nil,
                     encoding: Alamofire.ParameterEncoding = URLEncoding.default,
-                    headers: Alamofire.HTTPHeaders? = nil) -> Single<URLRequest> {
+                    headers: Alamofire.HTTPHeaders? = nil,
+                    timeout: TimeInterval = ZZNetConfig.timeout) -> Single<URLRequest> {
     do {
         let request = try URLRequest(url: url, method: method, headers: headers)
-        let encodedURLRequest = try encoding.encode(request, with: parameters)
+        var encodedURLRequest = try encoding.encode(request, with: parameters)
+        encodedURLRequest.timeoutInterval = timeout
         return Single<URLRequest>.just(encodedURLRequest)
     } catch {
         return Single<URLRequest>.error(error)
     }
 }
 
-func zzRequest(_ request: URLRequest) -> Single<Data> {
+func zzRequest(_ url: URLRequest, retry: Int = ZZNetConfig.retry) -> Single<Data> {
     return Single<Data>.create { single in
-        zzlog("start request:\(request)")
+        zzlog("start request: \(url)")
         if let before = ZZNetConfig.beforeRequest {
-            before(request)
+            before(url)
         }
-
-        let req = ZZNetworking.shared.manager.request(request).responseData { (res) in
+        let req = request(url).responseData { (res) in
             switch res.result {
             case .success(let data):
                 zzlog("request succeed, and get data: \(data)")
@@ -53,16 +53,24 @@ func zzRequest(_ request: URLRequest) -> Single<Data> {
         return Disposables.create {
             req.cancel()
         }
-    }
+    }.retry(retry)
 }
 
 func zzDecode<T: Codable>(_ data: Data, keyPath: String? = nil) -> Single<T> {
     return Single<T>.create { single in
         do {
-            let res = try JSONDecoder().decode(T.self, from: data)
+            var keyData = data
+            if let keyPath = keyPath,
+                let jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary,
+                let object = jsonObject[keyPath] {
+                keyData = try JSONSerialization.data(withJSONObject: object)
+            }
+            
+            let res = try JSONDecoder().decode(T.self, from: keyData)
+            zzlog("decode succeed, and get model: \(res)")
             single(.success(res))
         } catch {
-            zzlog("decode  failed, error: \(error)")
+            zzlog("decode failed, error: \(error)")
             single(.error(error))
         }
         return Disposables.create()
@@ -83,8 +91,8 @@ func zzEncode<T: Codable>(_ model: T) -> Single<Alamofire.Parameters?> {
 }
 
 // MARK: - debug util
-func zzlog(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+func zzlog(_ log: String) {
     if ZZNetConfig.debugLog {
-        print(items, separator: separator, terminator: terminator)
+        print("ZZNetworking Debug Log - " + log)
     }
 }

@@ -6,14 +6,17 @@
 //
 
 import RxSwift
+import RxCocoa
 
 public protocol ZZRestModel : Codable {
-    static var zz_path: String { get }
-    static var zz_host: String? { get }
-    static var zz_keyPath: String? { get }
+    static var path: String { get }
+    static var host: String? { get }
+    static var keyPath: String? { get }
+    static var retry: Int { get }
+    static var timeout: TimeInterval { get }
     
-    static func get(_ id: Int?) -> Single<Self>
-    static func get<T: Codable>(_ params: [String: Any]?) -> Single<T>
+    static func get(id: Int, _ params: [String: Any]?) -> Single<Self>
+    static func get(_ params: [String: Any]?) -> Single<[Self]>
     func post() -> Single<Self>
     
     // TODO:
@@ -21,36 +24,32 @@ public protocol ZZRestModel : Codable {
 //    func delete()
     
     static func extraHeader() -> [String: String]
-    static func beforeRequest()
-    static func afterRequest()
 }
 
 public extension ZZRestModel {
-    static var zz_host: String? { nil }
-    static var zz_keyPath: String? { ZZNetConfig.keyPath }
-    static var host: String { zz_host ?? ZZNetConfig.host }
+    static var host: String? { nil }
+    static var keyPath: String? { ZZNetConfig.keyPath }
+    static var retry: Int { ZZNetConfig.retry }
+    static var timeout: TimeInterval { ZZNetConfig.timeout }
+    static var url: String { (host ?? ZZNetConfig.host) + path }
     
     // MARK: - request
-    static func get(_ id: Int? = nil) -> Single<Self> {
-        var url = host + zz_path
-        if let id = id {
-            url += String(id)
-        }
-        return zzMakeRequest(url)
-            .flatMap{ zzRequest($0) }
+    static func get(id: Int, _ params: [String: Any]? = nil) -> Single<Self> {
+        return zzMakeRequest(url + "/" + String(id), parameters: params, headers: extraHeader(), timeout: timeout)
+            .flatMap{ zzRequest($0, retry: retry) }
             .flatMap{ zzDecode($0) }
     }
     
-    static func get<T: Codable>(_ params: [String: Any]? = nil) -> Single<T> {
-        return zzMakeRequest(host + zz_path, parameters: params, headers: extraHeader())
-            .flatMap { zzRequest($0) }
-            .flatMap { zzDecode($0, keyPath: zz_keyPath) }
+    static func get(_ params: [String: Any]? = nil) -> Single<[Self]> {
+        return zzMakeRequest(url, parameters: params, headers: extraHeader(), timeout: timeout)
+            .flatMap { zzRequest($0, retry: retry) }
+            .flatMap { zzDecode($0, keyPath: keyPath) }
     }
     
     func post() -> Single<Self> {
         return zzEncode(self)
-            .flatMap { zzMakeRequest(Self.host + Self.zz_path, method: .post, parameters: $0, headers: Self.extraHeader()) }
-            .flatMap { zzRequest($0) }
+            .flatMap { zzMakeRequest(Self.url, method: .post, parameters: $0, headers: Self.extraHeader(), timeout: Self.timeout) }
+            .flatMap { zzRequest($0, retry: Self.retry) }
             .flatMap { zzDecode($0) }
     }
     
@@ -58,19 +57,59 @@ public extension ZZRestModel {
     static func extraHeader() -> [String: String] {
         [String: String]()
     }
-    
-    static func beforeRequest() {
-        
-    }
-    
-    static func afterRequest() {
-        
-    }
 }
 
-public protocol ZZPageablepModel {
-    func refresh()
-    func loadNext()
-    var page: Int { get set }
-    var size: Int { get set }
+public enum PageableStyle {
+    case page
+    case skip
+}
+
+public class ZZPageableModel<T: ZZRestModel> {
+    /// page number
+    var page: Int = 0
+    static var pageKey: String { "page" }
+    /// start | skip
+    var skip: Int = 0
+    static var skipKey: String { "skip" }
+    /// count | size
+    var size: Int
+    static var sizeKey: String { "size" }
+    var style: PageableStyle
+    
+    var list = BehaviorRelay<[T]>(value: [])
+    var error = PublishRelay<Error>()
+    
+    let bag = DisposeBag()
+    
+    init(size: Int, style: PageableStyle = .skip) {
+       self.size = size
+       self.style = style
+    }
+    
+    func refresh() {
+        var param = [Self.sizeKey: size]
+        page = 0
+        skip = 0
+        switch style {
+        case .page:
+            param[Self.pageKey] = page
+            page += 1
+        case .skip:
+            param[Self.skipKey] = skip
+            skip += size
+        }
+        
+        T.get(param).subscribe({ [weak self] (res) in
+            switch res {
+            case .success(let model):
+                self?.list.accept(model)
+            case .error(let err):
+                self?.error.accept(err)
+            }
+        }).disposed(by: bag)
+    }
+    
+//    func loadNext() -> Single<Self> {
+//
+//    }
 }

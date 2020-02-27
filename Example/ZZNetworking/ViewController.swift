@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         ZZNetConfig.host = "https://api.douban.com"
         ZZNetConfig.debugLog = true
         
-        Movies.get().subscribe(onSuccess: { (res) in
+        Movie.get(["apikey":"0df993c66c0c636e29ecbb5344252a4a","start":0,"count":1]).subscribe(onSuccess: { (res) in
             print(res)
         }) { (err) in
             print(err)
