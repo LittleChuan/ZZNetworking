@@ -12,12 +12,29 @@ class ZZNetworking {
     
 }
 
- func zzMakeRequest(_ url: Alamofire.URLConvertible,
-                    method: Alamofire.HTTPMethod = .get,
-                    parameters: Alamofire.Parameters? = nil,
-                    encoding: Alamofire.ParameterEncoding = URLEncoding.default,
-                    headers: Alamofire.HTTPHeaders? = nil,
-                    timeout: TimeInterval = ZZNetConfig.timeout) -> Single<URLRequest> {
+public protocol ZZRequest {
+    static var host: String { get }
+    static var keyPath: String? { get }
+    static var timeout: TimeInterval { get }
+    
+    static var extraHeader: [String: String]? { get }
+}
+
+public extension ZZRequest {
+    static var host: String { ZZNetConfig.host }
+    static var keyPath: String? { ZZNetConfig.keyPath }
+    static var timeout: TimeInterval { ZZNetConfig.timeout }
+    
+    static var extraHeader: [String: String]? { nil }
+}
+
+// MARK: - Private Method
+func zzMakeRequest(_ url: Alamofire.URLConvertible,
+                   method: Alamofire.HTTPMethod = .get,
+                   parameters: Alamofire.Parameters? = nil,
+                   encoding: Alamofire.ParameterEncoding = URLEncoding.default,
+                   headers: Alamofire.HTTPHeaders? = nil,
+                   timeout: TimeInterval = ZZNetConfig.timeout) -> Single<URLRequest> {
     var requestHeaders = ZZNetConfig.header
     if let headers = headers {
         requestHeaders.merge(headers) { cur, _ in cur }
@@ -94,7 +111,7 @@ func zzEncode<T: Codable>(_ model: T) -> Single<Alamofire.Parameters?> {
     }
 }
 
-// MARK: - debug util
+// MARK: - Debug Util
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"

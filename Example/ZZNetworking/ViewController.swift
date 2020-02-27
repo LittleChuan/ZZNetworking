@@ -14,13 +14,14 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var table: UITableView!
     let bag = DisposeBag()
-    let movies = ZZPageableModel<Movie>(size: 1, style: .skip(sizeKey: "count", skipKey: "start"))
+    let movies = ZZRestPager<Picture>(size: 20, style: .page(sizeKey: "limit", pageKey: "offset"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // put this in you appDelegate
-        ZZNetConfig.host = "https://api.douban.com"
+        ZZNetConfig.host = "https://rabtman.com/api"
+        ZZNetConfig.keyPath = "data"
         ZZNetConfig.debugLog = true
         
         // register cell
@@ -32,19 +33,21 @@ class ViewController: UIViewController {
             }
             .disposed(by: bag)
         // and done
+        
+        print(UserService.auth(client_id: "", client_secret: "").request())
     }
     
     func testRestModel() {
-        Movie.get(["apikey":"0df993c66c0c636e29ecbb5344252a4a","start":0,"count":1]).subscribe(onSuccess: { (res) in
+        Picture.get().subscribe(onSuccess: { (res) in
             print(res)
         }).disposed(by: bag)
     }
     
     @IBAction func refresh(_ sender: Any) {
-        movies.refresh(["apikey":"0df993c66c0c636e29ecbb5344252a4a"])
+        movies.refresh()
     }
     
     @IBAction func more(_ sender: Any) {
-        movies.more(["apikey":"0df993c66c0c636e29ecbb5344252a4a"])
+        movies.more()
     }
 }

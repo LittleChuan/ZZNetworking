@@ -9,9 +9,9 @@ PODS:
     - RxSwift (~> 5)
   - RxSwift (5.0.1)
   - ZZNetworking (0.1.0):
-    - Alamofire (~> 4.9)
-    - RxCocoa (~> 5.0)
-    - RxSwift (~> 5.0)
+    - Alamofire (~> 4.9.0)
+    - RxCocoa (~> 5.0.0)
+    - RxSwift (~> 5.0.0)
 
 DEPENDENCIES:
   - Nimble (~> 7.0)
@@ -38,7 +38,7 @@ SPEC CHECKSUMS:
   RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
   RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
   RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
-  ZZNetworking: a97877ffca3beea410eb303ea4a8415274d6b84f
+  ZZNetworking: aa95591ca093e94b27b4ecd24e02637ccc1cd0b7
 
 PODFILE CHECKSUM: 1e54e403cb38c2c6cb7d0159877d2b10881be901
 

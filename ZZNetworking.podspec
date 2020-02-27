@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.version          = '0.1.0'
   s.summary          = 'A Networking Framework for RESTful API, in RxSwift'
   
-  s.description      = ''
+  s.description      = 'A Networking Framework for RESTful API, in RxSwift.'
 
   s.homepage         = 'https://github.com/LittleChuan/ZZNetworking'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
