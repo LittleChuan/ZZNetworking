@@ -8,11 +8,19 @@
 
 import ZZNetworking
 
-struct Live: ZZRestModel {
+struct Channel: ZZRestModel {
     var id: Int
     
-    static var path: String { "/media/v7/channellives" }
+    static var path: String { "/media/v7/channelondemands" }
     
     var title: String
     var description: String
+}
+
+struct Program: ZZRestModel {
+    var id: Int
+    
+    static var path: String { "programs" }
+    
+    var title: String
 }

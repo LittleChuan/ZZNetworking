@@ -14,7 +14,9 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var table: UITableView!
     let bag = DisposeBag()
-    let lives = ZZRestPager<Live>(size: 30, style: .page(sizeKey: "pagesize"))
+    let channels = ZZRestPager<Channel>(size: 30, style: .page())
+    
+    static let authTokenKey = "authTokenKey"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,30 +29,45 @@ class ViewController: UIViewController {
         // register cell
         table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         // bind data
-        lives.list.bind(to: table.rx
-            .items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, text, cell) in
+        channels.list.bind(to: table.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, text, cell) in
                 cell.textLabel?.text = text.title
             }
             .disposed(by: bag)
         // and done
+                
+        table.rx.itemSelected.subscribe(onNext: { [weak self] (indexPath) in
+            guard let self = self else { return }
+            self.showPragrams(self.channels.list.value[indexPath.row])
+            }).disposed(by: bag)
         
-        UserService.auth(client_id: "**", client_secret: "**").request().subscribe(onSuccess: { (auth: AuthRes) in
-            ZZNetConfig.header = ["QT-Access-Token": auth.access_token]
+        if let token = UserDefaults.standard.string(forKey: ViewController.authTokenKey) {
+            ZZNetConfig.header = ["QT-Access-Token": token]
+        } else {
+            UserService.auth(client_id: "x", client_secret: "x").request().subscribe(onSuccess: { (auth: AuthRes) in
+                UserDefaults.standard.set(auth.access_token, forKey: ViewController.authTokenKey)
+                ZZNetConfig.header = ["QT-Access-Token": auth.access_token]
+            }).disposed(by: bag)
+        }
+    }
+    
+    func showPragrams(_ channel: Channel) {
+        channel.get().subscribe(onSuccess: { (pragrams: [Program]) in
+            let alert = UIAlertController(title: "Pragrams", message: "\(pragrams)", preferredStyle: .alert)
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }).disposed(by: bag)
     }
     
-    
     func testRestModel() {
-        Live.get().subscribe(onSuccess: { (res) in
+        Channel.get().subscribe(onSuccess: { (res) in
             print(res)
         }).disposed(by: bag)
     }
     
     @IBAction func refresh(_ sender: Any) {
-        medias.refresh()
+        channels.refresh()
     }
     
     @IBAction func more(_ sender: Any) {
-        medias.more()
+        channels.more()
     }
 }

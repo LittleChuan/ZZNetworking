@@ -24,7 +24,7 @@ public struct ZZNetConfig {
     public static var afterRequestFailed: ((Error) -> ())?
     
     // MARK: - Model
-    public static var pageableSytle = PageableStyle.skip()
+    public static var pageableSytle = PageableStyle.page()
     
     // MARK: - Debug
     /// open debug log

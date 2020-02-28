@@ -70,7 +70,7 @@ func zzRequest(_ url: URLRequest) -> Single<Data> {
         if let before = ZZNetConfig.beforeRequest {
             before(url)
         }
-        let req = request(url).responseData { (res) in
+        let req = request(url).validate(statusCode: 200..<400).responseData { (res) in
             switch res.result {
             case .success(let data):
                 zzlog("request succeed, and get data: \(data)")

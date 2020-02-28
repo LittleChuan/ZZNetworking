@@ -9,8 +9,8 @@ import RxSwift
 import RxCocoa
 
 public enum PageableStyle {
-    case page(sizeKey: String = "size", pageKey: String = "page")
-    case skip(sizeKey: String = "size", skipKey: String = "skip")
+    case page(sizeKey: String = "pagesize", pageKey: String = "page")
+    case skip(sizeKey: String = "count", skipKey: String = "start")
 }
 
 public class ZZRestPager<T: ZZRestModel> {
