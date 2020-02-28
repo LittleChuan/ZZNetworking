@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var table: UITableView!
     let bag = DisposeBag()
-    let medias = ZZRestPager<Media>(size: 30, style: .page(sizeKey: "pagesize"))
+    let lives = ZZRestPager<Live>(size: 30, style: .page(sizeKey: "pagesize"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         // register cell
         table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         // bind data
-        medias.list.bind(to: table.rx
+        lives.list.bind(to: table.rx
             .items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, text, cell) in
                 cell.textLabel?.text = text.title
             }
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     
     
     func testRestModel() {
-        Media.get().subscribe(onSuccess: { (res) in
+        Live.get().subscribe(onSuccess: { (res) in
             print(res)
         }).disposed(by: bag)
     }

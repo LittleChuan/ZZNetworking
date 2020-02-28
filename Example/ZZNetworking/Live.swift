@@ -8,7 +8,9 @@
 
 import ZZNetworking
 
-struct Media: ZZRestModel {
+struct Live: ZZRestModel {
+    var id: Int
+    
     static var path: String { "/media/v7/channellives" }
     
     var title: String

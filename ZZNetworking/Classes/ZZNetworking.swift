@@ -12,6 +12,10 @@ class ZZNetworking {
     
 }
 
+enum ZZError: Error {
+    case URL(url: String)
+}
+
 public protocol ZZRequest {
     static var host: String { get }
     static var keyPath: String? { get }
@@ -29,6 +33,17 @@ public extension ZZRequest {
 }
 
 // MARK: - Private Method
+func zzMakeURL(host: String, _ path: String...) -> Single<URL> {
+    if var url = URL(string: host) {
+        for p in path {
+            url.appendPathComponent(p)
+        }
+        return Single<URL>.just(url)
+    } else {
+        return Single<URL>.error(ZZError.URL(url: host))
+    }
+}
+
 func zzMakeRequest(_ url: Alamofire.URLConvertible,
                    method: Alamofire.HTTPMethod = .get,
                    parameters: Alamofire.Parameters? = nil,

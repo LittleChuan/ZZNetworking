@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		149CA1DE2407BF1300EEEB20 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CA1DD2407BF1300EEEB20 /* UserService.swift */; };
-		149CA1E02407D3D800EEEB20 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CA1DF2407D3D800EEEB20 /* Media.swift */; };
+		149CA1E02407D3D800EEEB20 /* Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CA1DF2407D3D800EEEB20 /* Live.swift */; };
 		42286D3E432FB03324C45ECE /* Pods_ZZNetworking_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E5D685EDB79132967DA10 /* Pods_ZZNetworking_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		149CA1DD2407BF1300EEEB20 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		149CA1DF2407D3D800EEEB20 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		149CA1DF2407D3D800EEEB20 /* Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live.swift; sourceTree = "<group>"; };
 		16A7A0773DF0FCB66FA17879 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		28A9C7A64A9A68D2E341D19A /* Pods-ZZNetworking_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZNetworking_Tests.release.xcconfig"; path = "Target Support Files/Pods-ZZNetworking_Tests/Pods-ZZNetworking_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3FFF21B07E38CF176CA576CD /* Pods-ZZNetworking_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZNetworking_Example.debug.xcconfig"; path = "Target Support Files/Pods-ZZNetworking_Example/Pods-ZZNetworking_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				149CA1DF2407D3D800EEEB20 /* Media.swift */,
+				149CA1DF2407D3D800EEEB20 /* Live.swift */,
 				149CA1DD2407BF1300EEEB20 /* UserService.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -369,7 +369,7 @@
 				149CA1DE2407BF1300EEEB20 /* UserService.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				149CA1E02407D3D800EEEB20 /* Media.swift in Sources */,
+				149CA1E02407D3D800EEEB20 /* Live.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
