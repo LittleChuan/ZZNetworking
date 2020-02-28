@@ -9,8 +9,8 @@
 import ZZNetworking
 import Alamofire
 
-struct AuthReq {
-    var client_id: String?
+struct AuthRes: Codable {
+    var access_token: String
 }
 
 enum UserService {
@@ -31,13 +31,13 @@ extension UserService: ZZService {
     var params: [String: Any] {
         switch self {
         case .auth(let client_id, let client_secret):
-            return ["client_id": client_id, "client_secret": client_secret]
+            return ["client_id": client_id, "client_secret": client_secret, "grant_type": "client_credentials"]
         case .login(let phone):
             return ["phone": phone]
         }
     }
     
     var method: HTTPMethod {
-        .get
+        .post
     }
 }

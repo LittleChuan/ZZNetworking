@@ -51,7 +51,7 @@ func zzMakeRequest(_ url: Alamofire.URLConvertible,
 
 func zzRequest(_ url: URLRequest) -> Single<Data> {
     return Single<Data>.create { single in
-        zzlog("start request: \(url)")
+        zzlog("start request: \(url.httpMethod ?? "") \(url)")
         if let before = ZZNetConfig.beforeRequest {
             before(url)
         }
@@ -59,10 +59,16 @@ func zzRequest(_ url: URLRequest) -> Single<Data> {
             switch res.result {
             case .success(let data):
                 zzlog("request succeed, and get data: \(data)")
-                if let success = ZZNetConfig.afterRequestSuccess {
-                    success()
+                if let success = ZZNetConfig.afterRequestSuccess, let response = res.response {
+                    do {
+                        try success(response, data)
+                        single(.success(data))
+                    } catch {
+                        single(.error(error))
+                    }
+                } else {
+                    single(.success(data))
                 }
-                single(.success(data))
             case .failure(let err):
                 zzlog("request failed, error: \(err)")
                 if let failed = ZZNetConfig.afterRequestFailed {

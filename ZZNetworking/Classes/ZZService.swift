@@ -6,21 +6,27 @@
 //
 
 import Alamofire
+import RxSwift
 
 public protocol ZZService: ZZRequest {
+    var path: String { get }
+    
     var params: [String: Any] { get }
+    
+    var encoding: ParameterEncoding { get }
     
     var method: Alamofire.HTTPMethod { get }
     
-    func request() -> [String: Any]
+    func request<T: Codable>() -> Single<T>
 }
 
 public extension ZZService {
-    func request() -> [String: Any] {
-        switch self {
-        default:
-            print(self)
-        }
-        return params
+    
+    var encoding: ParameterEncoding { method == .get ? URLEncoding.default : JSONEncoding.default }
+    
+    func request<T: Codable>() -> Single<T> {
+        return zzMakeRequest(Self.host + path, method: method, parameters: params, encoding: encoding, headers: Self.extraHeader, timeout: Self.timeout)
+            .flatMap { zzRequest($0) }
+            .flatMap { zzDecode($0, keyPath: Self.keyPath) }
     }
 }

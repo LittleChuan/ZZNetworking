@@ -11,11 +11,14 @@ public protocol ZZRestModel : Codable, ZZRequest {
     static var path: String { get }
     
     static func get(id: Int, _ params: [String: Any]?) -> Single<Self>
+    
     static func get(_ params: [String: Any]?) -> Single<[Self]>
+    
     func post() -> Single<Self>
     
     // TODO:
 //    func put()
+//    
 //    func delete()
 }
 

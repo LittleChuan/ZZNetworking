@@ -1,5 +1,5 @@
 //
-//  Picture.swift
+//  Media.swift
 //  ZZNetworking_Example
 //
 //  Created by Chuan on 2020/2/27.
@@ -8,10 +8,9 @@
 
 import ZZNetworking
 
-struct Picture: ZZRestModel {
-    static var path: String { "/v2/acgclub/pictures" }
+struct Media: ZZRestModel {
+    static var path: String { "/media/v7/channellives" }
     
     var title: String
-    var thumbnail: String
+    var description: String
 }
-

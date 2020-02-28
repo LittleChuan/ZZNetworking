@@ -11,7 +11,7 @@ public struct ZZNetConfig {
     /// default request URL, mark sure modify this
     public static var host = "your host"
     /// default request Header
-    public static var header = [String: String]()
+    public static var header = ["Content-Type": "application/json"]
     /// keypath in data structure which need decode. eg. { code, message, *data* }
     public static var keyPath: String?
     /// default timeout
@@ -19,7 +19,7 @@ public struct ZZNetConfig {
     /// handle before request
     public static var beforeRequest: ((URLRequest) -> ())?
     /// handle request success
-    public static var afterRequestSuccess: (() -> ())?
+    public static var afterRequestSuccess: ((URLResponse, Data) throws -> ())?
     /// handle only request failed
     public static var afterRequestFailed: ((Error) -> ())?
     
