@@ -31,19 +31,18 @@ class ViewController: UIViewController {
         // bind data
         channels.list.bind(to: table.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, text, cell) in
                 cell.textLabel?.text = text.title
-            }
-            .disposed(by: bag)
+        } .disposed(by: bag)
         // and done
                 
         table.rx.itemSelected.subscribe(onNext: { [weak self] (indexPath) in
             guard let self = self else { return }
             self.showPragrams(self.channels.list.value[indexPath.row])
-            }).disposed(by: bag)
+        }).disposed(by: bag)
         
         if let token = UserDefaults.standard.string(forKey: ViewController.authTokenKey) {
             ZZNetConfig.header = ["QT-Access-Token": token]
         } else {
-            UserService.auth(client_id: "x", client_secret: "x").request().subscribe(onSuccess: { (auth: AuthRes) in
+            UserService.auth(client_id: "ZTJlZTFiYWEtYTVlYy0xMWU4LTkyM2YtMDAxNjNlMDAyMGFk", client_secret: "MWMwZGQ4MDAtNDllYS0zNjQ1LTk3ZWItYmRhMjk4OGY2ZWI0").request().subscribe(onSuccess: { (auth: AuthRes) in
                 UserDefaults.standard.set(auth.access_token, forKey: ViewController.authTokenKey)
                 ZZNetConfig.header = ["QT-Access-Token": auth.access_token]
             }).disposed(by: bag)

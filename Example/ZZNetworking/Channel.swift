@@ -11,7 +11,8 @@ import ZZNetworking
 struct Channel: ZZRestModel {
     var id: Int
     
-    static var path: String { "/media/v7/channelondemands" }
+    static var servicePath: String { "media/v7" }
+    static var path: String { "channelondemands" }
     
     var title: String
     var description: String
@@ -20,6 +21,7 @@ struct Channel: ZZRestModel {
 struct Program: ZZRestModel {
     var id: Int
     
+    static var servicePath: String { "media/v7" }
     static var path: String { "programs" }
     
     var title: String

@@ -32,28 +32,28 @@ public extension ZZRestModel {
     static var encoding: ParameterEncoding { JSONEncoding.default }
     
     static func get(id: Int, _ params: Parameters? = nil) -> Single<Self> {
-        return zzMakeURL(host: host, path, String(id))
+        return zzMakeURL(host: host, servicePath, path, String(id))
             .flatMap { zzMakeRequest($0, parameters: params, headers: extraHeader, timeout: timeout) }
             .flatMap{ zzRequest($0) }
             .flatMap{ zzDecode($0, keyPath: keyPath) }
     }
     
     static func get(_ params: Parameters? = nil) -> Single<[Self]> {
-        return zzMakeURL(host: host, path)
+        return zzMakeURL(host: host, servicePath, path)
             .flatMap { zzMakeRequest($0, parameters: params, headers: extraHeader, timeout: timeout) }
             .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0, keyPath: keyPath) }
     }
     
     func get<T: ZZRestModel>(_ params: Parameters? = nil) -> Single<[T]> {
-        return zzMakeURL(host: Self.host, Self.path, String(id), T.path)
+        return zzMakeURL(host: Self.host, Self.servicePath, Self.path, String(id), T.path)
             .flatMap { zzMakeRequest($0, parameters: params, headers: T.extraHeader, timeout: T.timeout) }
             .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0, keyPath: Self.keyPath) }
     }
     
     func post(_ params: Parameters? = nil) -> Single<Self> {
-        return Single.zip(zzMakeURL(host: Self.host, Self.path),
+        return Single.zip(zzMakeURL(host: Self.host, Self.servicePath, Self.path),
                           zzEncode(self))
             .flatMap { zzMakeRequest($0, method: .post, parameters: $1, encoding: Self.encoding, headers: Self.extraHeader, timeout: Self.timeout) }
             .flatMap { zzRequest($0) }
@@ -61,7 +61,7 @@ public extension ZZRestModel {
     }
     
     func put(_ params: Parameters? = nil) -> Single<Self> {
-        return Single.zip(zzMakeURL(host: Self.host, Self.path, String(id)),
+        return Single.zip(zzMakeURL(host: Self.host, Self.servicePath, Self.path, String(id)),
                           zzEncode(self))
             .flatMap { zzMakeRequest($0, method: .put, parameters: $1, encoding: Self.encoding, headers: Self.extraHeader, timeout: Self.timeout) }
             .flatMap { zzRequest($0) }
@@ -69,7 +69,7 @@ public extension ZZRestModel {
     }
     
     func delete(_ pramams: Parameters? = nil) -> Single<Self> {
-        return Single.zip(zzMakeURL(host: Self.host, Self.path, String(id)),
+        return Single.zip(zzMakeURL(host: Self.host, Self.servicePath, Self.path, String(id)),
                           zzEncode(self))
             .flatMap { zzMakeRequest($0, method: .delete, parameters: $1, encoding: Self.encoding, headers: Self.extraHeader, timeout: Self.timeout) }
             .flatMap { zzRequest($0) }

@@ -25,7 +25,7 @@ public extension ZZService {
     var encoding: ParameterEncoding { method == .get ? URLEncoding.default : JSONEncoding.default }
     
     func request<T: Codable>() -> Single<T> {
-        return zzMakeURL(host: Self.host, path)
+        return zzMakeURL(host: Self.host, Self.servicePath, path)
             .flatMap { zzMakeRequest($0, method: self.method, parameters: self.params, encoding: self.encoding, headers: Self.extraHeader, timeout: Self.timeout) }
             .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0, keyPath: Self.keyPath) }

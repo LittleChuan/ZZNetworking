@@ -18,6 +18,7 @@ enum ZZError: Error {
 
 public protocol ZZRequest {
     static var host: String { get }
+    static var servicePath: String { get }
     static var keyPath: String? { get }
     static var timeout: TimeInterval { get }
     

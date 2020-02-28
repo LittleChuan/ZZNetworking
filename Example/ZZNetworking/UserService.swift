@@ -19,10 +19,12 @@ enum UserService {
 }
 
 extension UserService: ZZService {
+    static var servicePath: String { "auth/v7" }
+    
     var path: String {
         switch self {
         case .auth:
-            return "/auth/v7/access"
+            return "access"
         case .login:
             return "login"
         }
