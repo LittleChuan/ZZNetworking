@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         if let token = UserDefaults.standard.string(forKey: ViewController.authTokenKey) {
             ZZNetConfig.header = ["QT-Access-Token": token]
         } else {
-            UserService.auth(client_id: "ZTJlZTFiYWEtYTVlYy0xMWU4LTkyM2YtMDAxNjNlMDAyMGFk", client_secret: "MWMwZGQ4MDAtNDllYS0zNjQ1LTk3ZWItYmRhMjk4OGY2ZWI0").request().subscribe(onSuccess: { (auth: AuthRes) in
+            UserService.auth(client_id: "x", client_secret: "x").request().subscribe(onSuccess: { (auth: AuthRes) in
                 UserDefaults.standard.set(auth.access_token, forKey: ViewController.authTokenKey)
                 ZZNetConfig.header = ["QT-Access-Token": auth.access_token]
             }).disposed(by: bag)
