@@ -1,6 +1,6 @@
 # ZZNetworking
 
-[![CI Status](https://img.shields.io/travis/ZackXXC/ZZNetworking.svg?style=flat)](https://travis-ci.org/LittleChuan/ZZNetworking)
+[![CI Status](https://img.shields.io/travis/ZackXXC/ZZNetworking.svg?style=flat)](https://travis-ci.org/LittleChuan/ZZNetworking?branch=0.1.1)
 [![Version](https://img.shields.io/cocoapods/v/ZZNetworking.svg?style=flat)](https://cocoapods.org/pods/ZZNetworking)
 [![License](https://img.shields.io/cocoapods/l/ZZNetworking.svg?style=flat)](https://cocoapods.org/pods/ZZNetworking)
 [![Platform](https://img.shields.io/cocoapods/p/ZZNetworking.svg?style=flat)](https://cocoapods.org/pods/ZZNetworking)
