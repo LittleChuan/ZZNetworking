@@ -17,7 +17,7 @@ public protocol ZZRestModel : Codable, ZZRequest {
     
     static func get(id: Int, _ params: Parameters?) -> Single<Self>
     
-    static func get(_ params: Parameters?) -> Single<[Self]>
+    static func get(_ params: Parameters?, prePath: String?) -> Single<[Self]>
     
     func get<T: ZZRestModel>(_ params: Parameters?) -> Single<[T]>
     
@@ -38,8 +38,8 @@ public extension ZZRestModel {
             .flatMap{ zzDecode($0, keyPath: keyPath) }
     }
     
-    static func get(_ params: Parameters? = nil) -> Single<[Self]> {
-        return zzMakeURL(host: host, servicePath, path)
+    static func get(_ params: Parameters? = nil, prePath: String? = nil) -> Single<[Self]> {
+        return zzMakeURL(host: host, servicePath, prePath, path)
             .flatMap { zzMakeRequest($0, parameters: params, headers: extraHeader, timeout: timeout) }
             .flatMap { zzRequest($0) }
             .flatMap { zzDecode($0, keyPath: keyPath) }

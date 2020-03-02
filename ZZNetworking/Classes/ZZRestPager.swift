@@ -13,6 +13,10 @@ public enum PageableStyle {
     case skip(sizeKey: String = "count", skipKey: String = "start")
 }
 
+protocol ZZRestPagerDelegate {
+    func getAny()
+}
+
 public class ZZRestPager<T: ZZRestModel> {
     /// page number
     var page: Int = 1
@@ -21,6 +25,10 @@ public class ZZRestPager<T: ZZRestModel> {
     /// count | size
     var size: Int
     var style: PageableStyle
+    
+    var delegate: ZZRestPagerDelegate?
+    
+    var prePath: String?
     
     public var list = BehaviorRelay<[T]>(value: [])
     public var error = PublishRelay<Error>()
@@ -32,10 +40,16 @@ public class ZZRestPager<T: ZZRestModel> {
         self.style = style
     }
     
+    public init<P: ZZRestModel>(size: Int, style: PageableStyle = ZZNetConfig.pageableSytle, parentModel: P) {
+        self.size = size
+        self.style = style
+        self.prePath = P.path + "/" + String(parentModel.id)
+    }
+    
     public func refresh(_ params: [String: Any]? = nil) {
         page = 1
         skip = 0
-        T.get(makeParams(params)).subscribe { [weak self] (res) in
+        T.get(makeParams(params), prePath: prePath).subscribe { [weak self] (res) in
             switch res {
             case .success(let model):
                 self?.list.accept(model)
@@ -47,7 +61,7 @@ public class ZZRestPager<T: ZZRestModel> {
     }
     
     public func more(_ params: [String: Any]? = nil) {
-        T.get(makeParams(params)).subscribe { [weak self](res) in
+        T.get(makeParams(params), prePath: prePath).subscribe { [weak self](res) in
             switch res {
             case .success(let model):
                 self?.list.accept((self?.list.value ?? []) + model)
@@ -58,7 +72,7 @@ public class ZZRestPager<T: ZZRestModel> {
         .disposed(by: bag)
     }
     
-    func makeParams(_ params: [String: Any]?) -> [String: Any] {
+    private func makeParams(_ params: [String: Any]?) -> [String: Any] {
         var newParams = params ?? [String: Any]()
         switch style {
         case .page(let sizeKey, let pageKey):

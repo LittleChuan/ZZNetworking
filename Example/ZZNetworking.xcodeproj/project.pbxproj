@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		149A3F15240D072C00254BA2 /* ProgramController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A3F14240D072C00254BA2 /* ProgramController.swift */; };
 		149CA1DE2407BF1300EEEB20 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CA1DD2407BF1300EEEB20 /* UserService.swift */; };
 		149CA1E02407D3D800EEEB20 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CA1DF2407D3D800EEEB20 /* Channel.swift */; };
 		42286D3E432FB03324C45ECE /* Pods_ZZNetworking_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E5D685EDB79132967DA10 /* Pods_ZZNetworking_Tests.framework */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		149A3F14240D072C00254BA2 /* ProgramController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramController.swift; sourceTree = "<group>"; };
 		149CA1DD2407BF1300EEEB20 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		149CA1DF2407D3D800EEEB20 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		16A7A0773DF0FCB66FA17879 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				149A3F14240D072C00254BA2 /* ProgramController.swift */,
 				149CA1DF2407D3D800EEEB20 /* Channel.swift */,
 				149CA1DD2407BF1300EEEB20 /* UserService.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -366,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149A3F15240D072C00254BA2 /* ProgramController.swift in Sources */,
 				149CA1DE2407BF1300EEEB20 /* UserService.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

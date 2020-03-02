@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZZNetworking'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A Networking Framework for RESTful API, in RxSwift'
   
   s.description      = 'A Networking Framework for RESTful API, in RxSwift. Provides model that can easily do GET | POST | PUT | DELETE with a RESTful API.'

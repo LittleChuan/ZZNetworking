@@ -1,6 +1,6 @@
 # ZZNetworking
 
-[![CI Status](https://img.shields.io/travis/ZackXXC/ZZNetworking.svg?style=flat)](https://travis-ci.org/ZackXXC/ZZNetworking)
+[![CI Status](https://img.shields.io/travis/ZackXXC/ZZNetworking.svg?style=flat)](https://travis-ci.org/LittleChuan/ZZNetworking)
 [![Version](https://img.shields.io/cocoapods/v/ZZNetworking.svg?style=flat)](https://cocoapods.org/pods/ZZNetworking)
 [![License](https://img.shields.io/cocoapods/l/ZZNetworking.svg?style=flat)](https://cocoapods.org/pods/ZZNetworking)
 [![Platform](https://img.shields.io/cocoapods/p/ZZNetworking.svg?style=flat)](https://cocoapods.org/pods/ZZNetworking)
@@ -9,7 +9,11 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+Then replace the id and secret: [QingtingFM](https://open.qingting.fm/documents/124), thanks for the free API.
+
+``` swift
+    UserService.auth(client_id: "x", client_secret: "x")
+```
 
 ## Installation
 

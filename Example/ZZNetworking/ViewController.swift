@@ -11,12 +11,13 @@ import ZZNetworking
 import RxSwift
 
 class ViewController: UIViewController {
+    static let authTokenKey = "authTokenKey"
 
     @IBOutlet weak var table: UITableView!
-    let bag = DisposeBag()
+    
     let channels = ZZRestPager<Channel>(size: 30, style: .page())
     
-    static let authTokenKey = "authTokenKey"
+    let bag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,17 @@ class ViewController: UIViewController {
         ZZNetConfig.host = "https://open.staging.qingting.fm"
         ZZNetConfig.keyPath = "data"
         ZZNetConfig.debugLog = true
+        
+        ZZNetConfig.afterRequestFailed = { [weak self] err in
+            switch err {
+            case .Request(_, let code):
+                if code == 401 {
+                    self?.refreshToken()
+                }
+            default:
+                break
+            }
+        }
         
         // register cell
         table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -42,17 +54,20 @@ class ViewController: UIViewController {
         if let token = UserDefaults.standard.string(forKey: ViewController.authTokenKey) {
             ZZNetConfig.header = ["QT-Access-Token": token]
         } else {
-            UserService.auth(client_id: "x", client_secret: "x").request().subscribe(onSuccess: { (auth: AuthRes) in
-                UserDefaults.standard.set(auth.access_token, forKey: ViewController.authTokenKey)
-                ZZNetConfig.header = ["QT-Access-Token": auth.access_token]
-            }).disposed(by: bag)
+            refreshToken()
         }
     }
     
     func showPragrams(_ channel: Channel) {
-        channel.get().subscribe(onSuccess: { (pragrams: [Program]) in
-            let alert = UIAlertController(title: "Pragrams", message: "\(pragrams)", preferredStyle: .alert)
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        let programContoller = ProgramController()
+        programContoller.programs = ZZRestPager<Program>(size: 30, parentModel: channel)
+        present(programContoller, animated: true, completion: nil)
+    }
+    
+    func refreshToken() {
+        UserService.auth(client_id: "x", client_secret: "x").request().subscribe(onSuccess: { (auth: AuthRes) in
+            UserDefaults.standard.set(auth.access_token, forKey: ViewController.authTokenKey)
+            ZZNetConfig.header = ["QT-Access-Token": auth.access_token]
         }).disposed(by: bag)
     }
     

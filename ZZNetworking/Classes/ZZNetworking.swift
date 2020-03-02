@@ -12,8 +12,9 @@ class ZZNetworking {
     
 }
 
-enum ZZError: Error {
+public enum ZZError: Error {
     case URL(url: String)
+    case Request(err: Error, code: Int)
 }
 
 public protocol ZZRequest {
@@ -34,10 +35,12 @@ public extension ZZRequest {
 }
 
 // MARK: - Private Method
-func zzMakeURL(host: String, _ path: String...) -> Single<URL> {
+func zzMakeURL(host: String, _ path: String?...) -> Single<URL> {
     if var url = URL(string: host) {
         for p in path {
-            url.appendPathComponent(p)
+            if let p = p {
+                url.appendPathComponent(p)
+            }
         }
         return Single<URL>.just(url)
     } else {
@@ -88,7 +91,7 @@ func zzRequest(_ url: URLRequest) -> Single<Data> {
             case .failure(let err):
                 zzlog("request failed, error: \(err)")
                 if let failed = ZZNetConfig.afterRequestFailed {
-                    failed(err)
+                    failed(ZZError.Request(err: err, code: res.response!.statusCode))
                 }
                 single(.error(err))
             }

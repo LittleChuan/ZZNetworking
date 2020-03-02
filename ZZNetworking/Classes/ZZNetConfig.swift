@@ -21,7 +21,7 @@ public struct ZZNetConfig {
     /// handle request success, you can validate
     public static var afterRequestSuccess: ((URLResponse, Data) throws -> ())?
     /// handle only request failed
-    public static var afterRequestFailed: ((Error) -> ())?
+    public static var afterRequestFailed: ((ZZError) -> ())?
     
     // MARK: - Model
     public static var pageableSytle = PageableStyle.page()
