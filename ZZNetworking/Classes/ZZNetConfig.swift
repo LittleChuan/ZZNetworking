@@ -24,6 +24,7 @@ public struct ZZNetConfig {
     public static var afterRequestFailed: ((ZZError) -> ())?
     
     // MARK: - Model
+    /// Pager Style, default .page(pagesize, page)
     public static var pageableSytle = PageableStyle.page()
     
     // MARK: - Debug

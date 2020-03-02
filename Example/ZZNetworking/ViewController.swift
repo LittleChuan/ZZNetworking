@@ -15,7 +15,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var table: UITableView!
     
-    let channels = ZZRestPager<Channel>(size: 30, style: .page())
+    let channels = ZZRestPager<Channel>(size: 30)
     
     let bag = DisposeBag()
     
