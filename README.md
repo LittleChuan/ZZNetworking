@@ -87,7 +87,7 @@ pod 'ZZNetworking'
 
 ## Author
 
-ZackXXC, zack@littlelights.ai
+ZackXXC, 248254119@qq.com
 
 ## License
 
